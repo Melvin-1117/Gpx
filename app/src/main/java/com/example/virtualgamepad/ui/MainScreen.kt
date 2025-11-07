@@ -2,8 +2,11 @@ package com.example.virtualgamepad.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.forEachGesture
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.Text
@@ -14,13 +17,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.example.virtualgamepad.ConnectionViewModel
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.platform.LocalDensity
+
+// FIX: Explicitly import all pointer utility extension functions
+import androidx.compose.ui.input.pointer.awaitPointerEventScope
+import androidx.compose.ui.input.pointer.awaitFirstDown
+import androidx.compose.ui.input.pointer.changedToUpIgnoreConsumed
 
 @Composable
 fun MainScreen(viewModel: ConnectionViewModel) {
@@ -83,13 +91,15 @@ fun DraggableButton(
     onUp: () -> Unit
 ) {
     val size = 80.dp
+    val coroutineScope = rememberCoroutineScope()
     Box(modifier = Modifier
         .offset { IntOffset(offset.x.roundToInt(), offset.y.roundToInt()) }
         .pointerInput(Unit) {
-            detectDragGestures { change, dragAmount ->
+            // FIX: Explicitly define parameters to resolve ambiguity
+            detectDragGestures(onDrag = { change, dragAmount -> 
                 change.consume()
                 onDrag(Offset(dragAmount.x, dragAmount.y))
-            }
+            })
         }
     ) {
         // The actual press detection is nested inside to avoid interfering with drag gestures
@@ -100,17 +110,23 @@ fun DraggableButton(
                     awaitPointerEventScope {
                         val down = awaitFirstDown()
                         // onDown
-                        onDown()
+                        coroutineScope.launch { onDown() }
+                        
                         // wait for up or cancel
                         var upEvent = false
                         while (true) {
                             val event = awaitPointerEvent()
+                            // Check if any pointer is explicitly up
                             if (event.changes.any { it.changedToUpIgnoreConsumed() }) {
                                 upEvent = true
                                 break
                             }
+                            // Safety break to prevent infinite loop if no events happen
+                            if (event.changes.all { !it.pressed }) {
+                                break
+                            }
                         }
-                        if (upEvent) onUp()
+                        if (upEvent) coroutineScope.launch { onUp() }
                     }
                 }
             }

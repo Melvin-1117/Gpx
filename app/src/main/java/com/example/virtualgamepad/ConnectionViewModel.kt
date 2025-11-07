@@ -8,6 +8,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import com.example.virtualgamepad.network.TcpClient
 
 class ConnectionViewModel : ViewModel() {
     private val tcpClient = TcpClient()

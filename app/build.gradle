@@ -1,4 +1,4 @@
-// App module build.gradle (ASCII, no BOM)
+// app/build.gradle
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = 'com.example.virtualgamepad'
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = 'com.example.virtualgamepad'
         minSdk = 21
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = '0.1'
     }
@@ -21,7 +21,8 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = '1.4.3'
+        // Updated for compatibility with Kotlin 1.8.0 and AGP 8.0.2
+        kotlinCompilerExtensionVersion = '1.4.8'
     }
 
     kotlinOptions {
@@ -37,4 +38,9 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.0'
+
+    // Add missing dependencies for @Preview, tooling, and utilities
+    debugImplementation 'androidx.compose.ui:ui-tooling-preview:1.5.0'
+    debugImplementation 'androidx.compose.ui:ui-tooling:1.5.0'
+    implementation 'androidx.compose.ui:ui-util:1.5.0' // Fixes Unresolved reference: changedToUpIgnoreConsumed
 }

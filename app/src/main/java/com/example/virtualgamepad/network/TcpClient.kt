@@ -1,4 +1,4 @@
-package com.example.virtualgamepad
+package com.example.virtualgamepad.network
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

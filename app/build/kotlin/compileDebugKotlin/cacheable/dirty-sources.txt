@@ -1,4 +1,0 @@
-C:\Users\anton\Gpx\app\src\main\java\com\example\virtualgamepad\network\TcpClient.kt
-C:\Users\anton\Gpx\app\src\main\java\com\example\virtualgamepad\MainActivity.kt
-C:\Users\anton\Gpx\app\src\main\java\com\example\virtualgamepad\ConnectionViewModel.kt
-C:\Users\anton\Gpx\app\src\main\java\com\example\virtualgamepad\ui\MainScreen.kt

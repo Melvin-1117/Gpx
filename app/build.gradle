@@ -10,10 +10,22 @@ android {
 
     defaultConfig {
         applicationId = 'com.example.virtualgamepad'
-        minSdk = 21
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
-        versionName = '0.1'
+        versionName = '1.0'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     buildFeatures {
@@ -21,8 +33,7 @@ android {
     }
 
     composeOptions {
-        // Updated for compatibility with Kotlin 1.8.0 and AGP 8.0.2
-        kotlinCompilerExtensionVersion = '1.4.8'
+        kotlinCompilerExtensionVersion '1.5.8'
     }
 
     kotlinOptions {
@@ -31,16 +42,18 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.10.1'
-    implementation 'androidx.activity:activity-compose:1.7.2'
-    implementation 'androidx.compose.ui:ui:1.5.0'
-    implementation 'androidx.compose.material:material:1.5.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.0'
-
-    // Add missing dependencies for @Preview, tooling, and utilities
-    debugImplementation 'androidx.compose.ui:ui-tooling-preview:1.5.0'
-    debugImplementation 'androidx.compose.ui:ui-tooling:1.5.0'
-    implementation 'androidx.compose.ui:ui-util:1.5.0' // Fixes Unresolved reference: changedToUpIgnoreConsumed
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.11.0'
+    implementation "androidx.compose.ui:ui:1.6.0"
+    implementation "androidx.compose.material:material:1.6.0"
+    implementation "androidx.compose.ui:ui-tooling-preview:1.6.0"
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.7.0'
+    implementation 'androidx.activity:activity-compose:1.8.2'
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0"
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.6.0"
+    debugImplementation "androidx.compose.ui:ui-tooling:1.6.0"
 }
